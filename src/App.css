@@ -1,5 +1,22 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@300;400;600&display=swap");
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Shantell Sans", cursive;
+  padding: 1rem;
+  background: #3a5061;
+  color: #c5cccc;
+}
+
+h1 {
+  font-size: 2.5rem;
 }

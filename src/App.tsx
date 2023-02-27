@@ -1,9 +1,9 @@
 import "./App.css";
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <div>
-      <h1>React App</h1>
+    <div className="App">
+      <h1>To-do</h1>
     </div>
   );
 };
