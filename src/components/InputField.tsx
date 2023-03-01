@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import "./InputField.css";
 
 interface Props {
-  //setTodo: React.Dispatch<React.SetStateAction<string>>;
   handleAdd: (todo: string) => void;
 }
 
@@ -14,7 +13,6 @@ const InputField: React.FC<Props> = ({ handleAdd }) => {
     const inputValue = inputRef.current?.value;
     handleAdd(inputValue!);
 
-    //setTodo(inputValue!);
     inputRef.current?.blur();
 
     if (inputRef.current) {
