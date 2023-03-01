@@ -2,16 +2,21 @@ import React, { useRef } from "react";
 import "./InputField.css";
 
 interface Props {
-  setTodo: React.Dispatch<React.SetStateAction<string>>;
+  //setTodo: React.Dispatch<React.SetStateAction<string>>;
+  handleAdd: (todo: string) => void;
 }
 
-const InputField = ({ setTodo }: Props) => {
+const InputField: React.FC<Props> = ({ handleAdd }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const inputValue = inputRef.current?.value;
-    setTodo(inputValue!);
+    handleAdd(inputValue!);
+
+    //setTodo(inputValue!);
+    inputRef.current?.blur();
+
     if (inputRef.current) {
       inputRef.current.value = "";
     }
