@@ -19,6 +19,10 @@
   border-radius: 8px;
 }
 
+.todoList > h2 {
+  font-size: 2rem;
+}
+
 .remove {
   background: linear-gradient(0deg, rgb(40, 115, 65) 0%, rgb(20, 153, 82) 100%);
 }

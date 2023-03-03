@@ -3,14 +3,21 @@ import "./SingleTodo.css";
 import { Todo } from "../model";
 import { MdDelete, MdDoneOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
+import { Draggable } from "react-beautiful-dnd";
 
 interface Props {
+  index: number;
   todo: Todo;
   todos: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-export const SingleTodo: React.FC<Props> = ({ todo, todos, setTodos }) => {
+export const SingleTodo: React.FC<Props> = ({
+  index,
+  todo,
+  todos,
+  setTodos,
+}) => {
   const [edit, setEdit] = useState<boolean>(true);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -52,38 +59,51 @@ export const SingleTodo: React.FC<Props> = ({ todo, todos, setTodos }) => {
   };
 
   return (
-    <li
-      key={todo.id}
-      className={
-        !todo.isDone
-          ? "singleTodo-item"
-          : "singleTodo-item singleTodo-item_done"
-      }
-    >
-      <input
-        className="singleTodo-todo"
-        type="form"
-        ref={inputRef}
-        value={editTodo}
-        disabled={edit}
-        onKeyDown={(e) => handleOnKeyDown(e, todo.id)}
-        onChange={(e) => setEditTodo(e.target.value)}
-      />
-      <div className="singleTodo-container">
-        <button className="singleTodo-btn" onClick={() => handleEdit(todo.id)}>
-          <AiFillEdit />
-        </button>
-        <button className="singleTodo-btn" onClick={() => handleDone(todo.id)}>
-          <MdDoneOutline />
-        </button>
-        <button
-          className="singleTodo-btn"
-          onClick={() => handleDelete(todo.id)}
+    <Draggable draggableId={todo.id.toString()} index={index}>
+      {(provided) => (
+        <li
+          key={todo.id}
+          className={
+            !todo.isDone
+              ? "singleTodo-item"
+              : "singleTodo-item singleTodo-item_done"
+          }
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
         >
-          <MdDelete />
-        </button>
-      </div>
-    </li>
+          <input
+            className="singleTodo-todo"
+            type="form"
+            ref={inputRef}
+            value={editTodo}
+            disabled={edit}
+            onKeyDown={(e) => handleOnKeyDown(e, todo.id)}
+            onChange={(e) => setEditTodo(e.target.value)}
+          />
+          <div className="singleTodo-container">
+            <button
+              className="singleTodo-btn"
+              onClick={() => handleEdit(todo.id)}
+            >
+              <AiFillEdit />
+            </button>
+            <button
+              className="singleTodo-btn"
+              onClick={() => handleDone(todo.id)}
+            >
+              <MdDoneOutline />
+            </button>
+            <button
+              className="singleTodo-btn"
+              onClick={() => handleDelete(todo.id)}
+            >
+              <MdDelete />
+            </button>
+          </div>
+        </li>
+      )}
+    </Draggable>
   );
 };
 

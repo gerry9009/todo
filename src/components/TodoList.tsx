@@ -2,6 +2,7 @@ import React from "react";
 import SingleTodo from "./SingleTodo";
 import "./TodoList.css";
 import { Todo } from "../model";
+import { Droppable } from "react-beautiful-dnd";
 
 interface Props {
   todos: Todo[];
@@ -11,34 +12,105 @@ interface Props {
 const TodoList: React.FC<Props> = ({ todos, setTodos }) => {
   return (
     <div className="todos-container">
-      <ul className="todoList">
-        <h2>Active</h2>
-        {todos
-          .filter((todo) => todo.isDone === false)
-          .map((todo) => (
-            <SingleTodo
-              key={todo.id}
-              todo={todo}
-              todos={todos}
-              setTodos={setTodos}
-            />
-          ))}
-      </ul>
-      <ul className="todoList remove">
-        <h2>Completed</h2>
-        {todos
-          .filter((todo) => todo.isDone === true)
-          .map((todo) => (
-            <SingleTodo
-              key={todo.id}
-              todo={todo}
-              todos={todos}
-              setTodos={setTodos}
-            />
-          ))}
-      </ul>
+      <Droppable droppableId="TodoList">
+        {(provided) => (
+          <ul
+            className="todoList"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <h2>Active Tasks</h2>
+            {todos
+              .filter((todo) => todo.isDone === false)
+              .map((todo, index) => (
+                <SingleTodo
+                  index={todo.id}
+                  key={todo.id}
+                  todo={todo}
+                  todos={todos}
+                  setTodos={setTodos}
+                />
+              ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+      <Droppable droppableId="CompletedList">
+        {(provided) => (
+          <ul
+            className="todoList remove"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <h2>Completed Tasks</h2>
+            {todos
+              .filter((todo) => todo.isDone === true)
+              .map((todo, index) => (
+                <SingleTodo
+                  index={todo.id}
+                  key={todo.id}
+                  todo={todo}
+                  todos={todos}
+                  setTodos={setTodos}
+                />
+              ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
     </div>
   );
 };
 
 export default TodoList;
+
+/**
+
+      <Droppable droppableId="TodoList">
+        {(provided) => (
+          <ul
+            className="todoList"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <h2>Active Tasks</h2>
+            {todos
+              .filter((todo) => todo.isDone === false)
+              .map((todo, index) => (
+                <SingleTodo
+                  index={index}
+                  key={todo.id}
+                  todo={todo}
+                  todos={todos}
+                  setTodos={setTodos}
+                />
+              ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+
+      <Droppable droppableId="TodoCompleted">
+        {(provided) => (
+          <ul
+            className="todoList remove"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <h2>Completed Tasks</h2>
+            {todos
+              .filter((todo) => todo.isDone === true)
+              .map((todo, index) => (
+                <SingleTodo
+                  index={index}
+                  key={todo.id}
+                  todo={todo}
+                  todos={todos}
+                  setTodos={setTodos}
+                />
+              ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+ */
