@@ -79,14 +79,12 @@ export const SingleTodo: React.FC<Props> = ({
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <li
           key={todo.id}
-          className={
-            !todo.isDone
-              ? "singleTodo-item"
-              : "singleTodo-item singleTodo-item_done"
-          }
+          className={`singleTodo-item ${
+            !todo.isDone ? "" : "singleTodo-item_done"
+          } ${snapshot.isDragging ? "dragging" : ""}`}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}

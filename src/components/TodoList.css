@@ -7,7 +7,7 @@
 }
 
 .todoList {
-  min-width: 450px;
+  min-width: 250px;
   width: 40%;
   background: linear-gradient(
     0deg,
@@ -25,4 +25,16 @@
 
 .remove {
   background: linear-gradient(0deg, rgb(40, 115, 65) 0%, rgb(20, 153, 82) 100%);
+}
+
+.dragging-active {
+  background: linear-gradient(
+    0deg,
+    rgb(23, 167, 184) 0%,
+    rgb(39, 152, 183) 100%
+  );
+}
+
+.dragging-completed {
+  background: linear-gradient(0deg, rgb(41, 136, 73) 0%, rgb(16, 187, 96) 100%);
 }

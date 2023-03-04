@@ -2,6 +2,8 @@
   list-style: none;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
   background: rgb(195, 135, 34);
   background: linear-gradient(
     0deg,
@@ -61,6 +63,15 @@
 
 .singleTodo-btn:hover {
   color: aliceblue;
+}
+
+.dragging {
+  background: linear-gradient(
+    0deg,
+    rgb(214, 160, 65) 0%,
+    rgb(255, 199, 77) 100%
+  );
+  box-shadow: 0 0 60px rgba(0, 0, 0, 1);
 }
 
 @media (min-width: 768px) {
