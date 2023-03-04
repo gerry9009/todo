@@ -7,6 +7,7 @@ import { Todo } from "./model";
 
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [completed, setCompleted] = useState<Todo[]>([]);
 
   const handleAdd = (todo: string): void => {
     if (todo) {
@@ -15,8 +16,6 @@ const App: React.FC = () => {
   };
 
   const handleDragEnd = (result: DropResult) => {
-    console.log(result);
-
     const { destination, source } = result;
     if (!destination) return;
     if (
@@ -25,27 +24,28 @@ const App: React.FC = () => {
     )
       return;
 
-    let active: number;
+    let active = todos;
+    let complete = completed;
+    let add;
 
     if (source.droppableId === "TodoList") {
-      active = source.index;
+      add = active[source.index];
+      active.splice(source.index, 1);
     } else {
-      active = source.index;
+      add = complete[source.index];
+      complete.splice(source.index, 1);
     }
 
     if (destination.droppableId === "TodoList") {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === active ? { ...todo, isDone: false } : todo
-        )
-      );
+      active.splice(destination.index, 0, add);
+      add.isDone = false;
     } else {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === active ? { ...todo, isDone: true } : todo
-        )
-      );
+      add.isDone = true;
+      complete.splice(destination.index, 0, add);
     }
+
+    setTodos(active);
+    setCompleted(complete);
   };
 
   return (
@@ -53,7 +53,12 @@ const App: React.FC = () => {
       <div className="App">
         <h1>To-do</h1>
         <InputField handleAdd={handleAdd} />
-        <TodoList todos={todos} setTodos={setTodos} />
+        <TodoList
+          todos={todos}
+          setTodos={setTodos}
+          completed={completed}
+          setCompleted={setCompleted}
+        />
       </div>
     </DragDropContext>
   );

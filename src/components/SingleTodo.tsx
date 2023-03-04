@@ -4,12 +4,15 @@ import { Todo } from "../model";
 import { MdDelete, MdDoneOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import { Draggable } from "react-beautiful-dnd";
+import TodoList from "./TodoList";
 
 interface Props {
   index: number;
   todo: Todo;
   todos: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  completed: Todo[];
+  setCompleted: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
 export const SingleTodo: React.FC<Props> = ({
@@ -17,7 +20,10 @@ export const SingleTodo: React.FC<Props> = ({
   todo,
   todos,
   setTodos,
+  completed,
+  setCompleted,
 }) => {
+  // handle edit mode - if it is false it not gonna be able to push any other button just the edit button
   const [edit, setEdit] = useState<boolean>(true);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
@@ -38,17 +44,30 @@ export const SingleTodo: React.FC<Props> = ({
 
   const handleDone = (id: number) => {
     if (edit) {
-      setTodos(
-        todos.map((todo) =>
-          todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-        )
-      );
+      const filtered = completed.filter((task) => task.id === id);
+
+      if (!filtered.length) {
+        const add = todos.filter((task) => task.id === id);
+        add[0].isDone = true;
+        setTodos(todos.filter((task) => task.id !== id));
+        setCompleted((completed) => [...completed, ...add]);
+      } else {
+        const add = completed.filter((task) => task.id === id);
+        add[0].isDone = false;
+        setCompleted(completed.filter((task) => task.id !== id));
+        setTodos((todos) => [...todos, ...add]);
+      }
     }
   };
 
   const handleDelete = (id: number) => {
     if (edit) {
-      setTodos(todos.filter((todo) => todo.id !== id));
+      const filtered = completed.filter((task) => task.id === id);
+      if (!filtered.length) {
+        setTodos(todos.filter((task) => todo.id !== id));
+      } else {
+        setCompleted(completed.filter((task) => todo.id !== id));
+      }
     }
   };
 
