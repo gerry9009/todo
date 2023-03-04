@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import "./App.css";
 import InputField from "./components/InputField";
@@ -8,6 +8,26 @@ import { Todo } from "./model";
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [completed, setCompleted] = useState<Todo[]>([]);
+
+  const storedTodos = localStorage.getItem("todos");
+  const storedCompleted = localStorage.getItem("completed");
+
+  useEffect(() => {
+    console.log("lefut");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+    if (storedCompleted) {
+      setCompleted(JSON.parse(storedCompleted));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+  useEffect(() => {
+    localStorage.setItem("completed", JSON.stringify(completed));
+  }, [completed]);
 
   const handleAdd = (todo: string): void => {
     if (todo) {
@@ -46,6 +66,9 @@ const App: React.FC = () => {
 
     setTodos(active);
     setCompleted(complete);
+
+    localStorage.setItem("todos", JSON.stringify(todos));
+    localStorage.setItem("completed", JSON.stringify(completed));
   };
 
   return (

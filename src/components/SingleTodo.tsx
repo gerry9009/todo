@@ -64,9 +64,9 @@ export const SingleTodo: React.FC<Props> = ({
     if (edit) {
       const filtered = completed.filter((task) => task.id === id);
       if (!filtered.length) {
-        setTodos(todos.filter((task) => todo.id !== id));
+        setTodos(todos.filter((task) => task.id !== id));
       } else {
-        setCompleted(completed.filter((task) => todo.id !== id));
+        setCompleted(completed.filter((task) => task.id !== id));
       }
     }
   };

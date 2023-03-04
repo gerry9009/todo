@@ -8,6 +8,7 @@
 
 .todoList {
   min-width: 250px;
+  max-width: 600px;
   width: 40%;
   background: linear-gradient(
     0deg,
